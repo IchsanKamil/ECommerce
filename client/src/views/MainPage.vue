@@ -2,7 +2,7 @@
   <div>
     <Navbar></Navbar>
     <div class="container">
-      <div class="btn btn-outline-info my-3">My Cart</div>
+      <div class="btn btn-outline-info my-3" @click="toMyCart">My Cart</div>
       <b-card-group deck>
         <Product v-for="product in products" :key="product.id" :product="product"></Product>
       </b-card-group>
@@ -18,7 +18,12 @@ export default {
   name: "MainPage",
   components: {
     Navbar,
-    Product
+    Product,
+  },
+  methods: {
+    toMyCart() {
+      this.$router.push({ name: 'Cart' })
+    }
   },
   computed: {
     products() {
@@ -27,7 +32,7 @@ export default {
   },
   created() {
     // console.log(products, '<<<<');
-    console.log(this.$store.state.products, "<<<<");
+    // console.log(this.$store.state.products, "<<<<");
     this.$store.dispatch("fetchProducts");
   }
 };

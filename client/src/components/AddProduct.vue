@@ -1,117 +1,71 @@
 <template>
-    <div class="container my-3">
-        <!-- Add Task -->
-        <button
-          type="button" class="btn btn-outline-primary btn-sm mt-4" @click="showModal = !showModal">
-            Add Product
-        </button>
+  <div class="container my-3">
+    <!-- Add Task -->
+    <button
+      type="button"
+      class="btn btn-outline-primary btn-sm mt-4"
+      @click="showModal = !showModal"
+    >Add to Cart</button>
 
-        <!-- Modal Add-->
-        <div class="loadingModal" v-if="showModal">
-            <div class="theModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
-                            <button type="button" class="close" @click="showModal = !showModal">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row justify-content-center">
-                                <div class="col-8">
-                                    <form @submit.prevent="addProduct">
-                                        <div class="form-group">
-                                            <label for="name">Name :</label>
-                                            <input
-                                            type="text"
-                                            class="form-control" v-model="name" id="name"
-                                            >
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="image_url">Image Url :</label>
-                                            <input
-                                            type="text"
-                                            class="form-control"
-                                            v-model="image_url" id="image_url" required
-                                            >
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="price">Price :</label>
-                                            <input type="number" class="form-control"
-                                            v-model="price" id="price" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="stock">Stock :</label>
-                                            <input type="number" class="form-control"
-                                            v-model="stock" id="stock" required>
-                                        </div>
-                                        <button class="btn btn-outline-primary mr-1">Create</button>
-                                        <button class="btn btn-outline-secondary"
-                                        @click="showModal = !showModal">Close</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Modal Add-->
+    <div class="loadingModal" v-if="showModal">
+      <div class="theModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add to Cart</h5>
+              <button type="button" class="close" @click="showModal = !showModal">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
+            <div class="modal-body">
+              <div class="row justify-content-center">
+                <div class="col-8">
+                  <form @submit.prevent="addToCart">
+                    <div class="form-group">
+                      <label for="quantity">Quantity :</label>
+                      <input type="number" class="form-control" v-model="quantity" id="quantity" />
+                    </div>
+                    <button class="btn btn-outline-primary mr-1">Add</button>
+                    <button class="btn btn-outline-secondary" @click="showModal = !showModal">Close</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  name: 'AddTask',
+  name: "AddProduct",
   data() {
     return {
-      baseUrl: 'http://localhost:3000',
-      name: '',
-      image_url: '',
-      price: '',
-      stock: '',
-      product: [],
       showModal: false,
+      quantity: '',
     };
   },
+  props: ['productId'],
   methods: {
-    addProduct() {
-      console.log('masuk addProduct');
-      axios({
-        method: 'post',
-        url: `${this.baseUrl}/products`,
-        headers: {
-          token: localStorage.token,
-        },
-        data: {
-          name: this.name,
-          image_url: this.image_url,
-          price: this.price,
-          stock: this.stock,
-        },
-      })
-        .then((result) => {
-          console.log('add product');
-          this.product.push({
-            id: result.data.id,
-            title: result.data.title,
-            description: result.data.description,
-            category: result.data.category,
-            due_date: result.data.due_date,
-          });
-          this.showModal = false;
-          // this.$emit('refresh');
-          this.title = '';
-          this.description = '';
-          this.category = '';
-          this.due_date = '';
-        }).catch((err) => {
-          console.log(err, '<<< err addTask');
-        });
-    },
-  },
+    addToCart() {
+      if(!localStorage.token) {
+        this.$router.push({ name: 'Login' })
+      } else {
+        let payload = {
+          quantity: this.quantity,
+          ProductId: this.productId
+        }
+        this.$store.dispatch('addToCart', payload)
+        this.quantity = ''
+        this.showModal = false
+      }
+    }
+  }
 };
 </script>
 

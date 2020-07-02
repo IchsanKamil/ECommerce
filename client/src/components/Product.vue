@@ -9,16 +9,24 @@
       style="max-width: 15rem;"
       class="mb-2"
     >
-      <b-card-text>Price: Rp {{product.price}}</b-card-text>
+      <b-card-text>Price: Rp {{ Number((product.price).toFixed(1)).toLocaleString()}}</b-card-text>
       <b-card-text>Stock: {{product.stock}}</b-card-text>
-      <b-button href="#" variant="primary">Add to cart</b-button>
+      <AddProduct
+      :productId="product.id"
+      ></AddProduct>
+      <!-- <b-button href="#" variant="primary">Add to cart</b-button> -->
     </b-card>
   </div>
 </template>
 
 <script>
+import AddProduct from '@/components/AddProduct.vue'
+
 export default {
   name: "Product",
-  props: ["product"]
+  props: ["product"],
+  components: {
+    AddProduct,
+  }
 };
 </script>
