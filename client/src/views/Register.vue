@@ -56,7 +56,7 @@ export default {
   name: 'Register',
   data() {
     return {
-      baseUrl: 'http://localhost:3000',
+      baseUrl: 'https://ren-ecommerce.herokuapp.com',
       name: '',
       address: '',
       email: '',
