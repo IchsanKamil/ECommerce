@@ -43,6 +43,7 @@
         />
         <button class="btn btn-lg btn-primary btn-block mt-3" type="submit">Register</button>
         <router-link class="btn btn-lg btn-primary btn-block mt-3" to="/login">Cancel</router-link>
+        <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
       </form>
       <router-view></router-view>
     </div>
