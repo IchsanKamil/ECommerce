@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    baseUrl: 'https://ren-ecommerce.herokuapp.com',
+    baseUrl: 'http://localhost:3000',
     products: [],
 
   },

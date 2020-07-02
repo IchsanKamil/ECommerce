@@ -339,8 +339,14 @@ _Response (400 - Bad Request)_
 ```
 ---
 ### GET /customers/:CustomerId
-> Show all product based on Customer Id
+> Show all product in cart based on Customer Id
 
+_Request Params_
+```
+{
+    "CustomerId": integer
+}
+```
 _Request Header_
 ```json
 {
@@ -349,21 +355,99 @@ _Request Header_
 ```
 _Response (200 - Ok)_
 ```json
+[
+    {
+        "quantity": 7,
+        "CustomerId": 1,
+        "ProductId": 2,
+        "createdAt": "2020-07-01T09:35:01.396Z",
+        "updatedAt": "2020-07-01T09:35:01.396Z",
+        "Product": {
+            "id": 2,
+            "name": "PS 5",
+            "image_url": "https://asset.kompas.com/crops/1C-M-9auIGQ6NICQLHdac3T88ME=/131x95:935x631/750x500/data/photo/2020/06/12/5ee2d91340862.jpg",
+            "price": 7500000,
+            "stock": 23,
+            "UserId": 1,
+            "createdAt": "2020-07-01T08:32:08.163Z",
+            "updatedAt": "2020-07-02T03:01:29.503Z"
+        }
+    }, {
+        ...
+    }
+]
+```
+---
+### PUT /products/:id
+> Edit product in cart based on ID
+
+_Request Params_
+```
 {
-    "id": 1,
-    "name": "product name",
-    "image_url": "http://your-image-url.com/img.png",
-    "price": 100000,
-    "stock": 100,
-    "UserId": 1,
-    "updatedAt": "2020-06-17T16:38:51.584Z",
-    "createdAt": "2020-06-17T16:38:51.584Z"
+    "CustomerId": integer
+    "ProductId": integer
 }
 ```
-_Response (404 - Not Found)_
+_Request Header_
 ```json
 {
-    "message": "Product not found"
+    "token": "<your token>"
+}
+```
+_Request Body_
+```json
+{
+    "quantity": "2"
+}
+```
+_Response (200 - Updated)_
+```json
+{
+    {
+        "quantity": 2,
+        "CustomerId": 1,
+        "ProductId": 2,
+        "createdAt": "2020-07-01T09:35:01.396Z",
+        "updatedAt": "2020-07-01T09:35:01.396Z",
+        "Product": {
+            "id": 2,
+            "name": "PS 5",
+            "image_url": "https://asset.kompas.com/crops/1C-M-9auIGQ6NICQLHdac3T88ME=/131x95:935x631/750x500/data/photo/2020/06/12/5ee2d91340862.jpg",
+            "price": 7500000,
+            "stock": 23,
+            "UserId": 1,
+            "createdAt": "2020-07-01T08:32:08.163Z",
+            "updatedAt": "2020-07-02T03:01:29.503Z"
+        }
+    }
+}
+```
+_Response (400 - Bad Request)_
+```json
+{
+    "message": "Quantity can't be empty"
 }
 ```
 ---
+### DELETE /customers/:CustomerId/:ProductId
+> Delete product in cart based on ID
+
+_Request Params_
+```
+{
+    "CustomerId": integer
+    "ProductId": integer
+}
+```
+_Request Header_
+```json
+{
+    "token": "<your token>"
+}
+```
+_Response (200 - oK)_
+```json
+{
+    "message": "product successfully deleted"
+}
+```
